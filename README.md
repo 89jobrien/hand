@@ -2,6 +2,12 @@
 
 Three skills for structured project handoff across Claude Code sessions.
 
+## Installation
+
+```bash
+claude plugin add github:89jobrien/hand
+```
+
 ## Skills
 
 | Command | When to use |
