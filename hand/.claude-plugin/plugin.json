@@ -1,0 +1,9 @@
+{
+  "name": "hand",
+  "version": "0.1.0",
+  "description": "Session handoff toolkit — start, end, and visualize project state via HANDOFF.yaml and .ctx/.",
+  "author": {
+    "name": "Joseph O'Brien",
+    "email": "joe@89jobrien.com"
+  }
+}

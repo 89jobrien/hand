@@ -1,0 +1,40 @@
+# HANDOFF.yaml schema — reference spec
+#
+# One file per repo, lives at repo root.
+# Items are the actionable backlog. Log is append-only history.
+# State is overwritten each session.
+
+project: <string>           # repo/project name
+id: <string>                # first 7 chars of project name; used as item ID prefix (e.g. "devkit" → items are devkit-1, devkit-2, ...)
+updated: <YYYY-MM-DD>       # date of last session
+branch: <string>            # current working branch
+state:
+  tests: <string>           # e.g. "28 passing" or "failing: 3"
+  build: <clean|failing|unknown>
+  notes: <string|null>      # freeform current-state note
+
+items:
+  - id: <prefix>-<n>        # e.g. devkit-1; prefix = first 7 chars of project name; n = sequential integer from 1, no leading zeros, never reuse
+    name: <slug>            # kebab-case human-readable name, stable
+    priority: <P0|P1|P2>
+    status: <open|done|parked|blocked>
+    title: <string>         # one-line description
+    description: <string|null>   # optional detail, context for pickup
+    files: [<path>, ...]    # files to look at (optional but helpful)
+    completed: <YYYY-MM-DD|null> # set when status → done
+
+log:
+  - date: <YYYY-MM-DD>
+    summary: <string>       # one-liner of what happened this session
+    commits: [<hash>, ...]  # optional, short hashes
+
+# Priority guide:
+#   P0 — broken, blocked, security risk, data loss — validate before acting
+#   P1 — known fix, clear scope, safe to execute autonomously
+#   P2 — safe to delegate to subagent, well-understood
+#
+# Status guide:
+#   open   — not started
+#   done   — complete (keep for log value, prune after ~3 sessions)
+#   parked — intentionally deferred, needs a reason in description
+#   blocked — can't proceed, description must say why

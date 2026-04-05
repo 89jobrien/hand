@@ -1,0 +1,66 @@
+project: widget-cli
+id: widget-c
+updated: 2026-04-02
+branch: main
+state:
+  tests: "42 passing, 2 failing"
+  build: failing
+  notes: "auth module compile error after merge, nothing else broken"
+
+items:
+  - id: widget-c-1
+    name: auth-compile-error
+    priority: P0
+    status: open
+    title: "Auth module fails to compile after merge"
+    description: >
+      src/auth/mod.rs:47 — `SessionToken` moved but not re-exported.
+      Broke in merge of feature/oauth. Quick fix: re-export from lib.rs.
+    files:
+      - src/auth/mod.rs
+      - src/lib.rs
+
+  - id: widget-c-2
+    name: retry-logic
+    priority: P1
+    status: open
+    title: "Add exponential backoff to HTTP client"
+    description: >
+      Currently fails hard on transient 503s. Use tokio-retry, 3 attempts,
+      base 100ms. See src/client.rs::fetch().
+    files:
+      - src/client.rs
+      - Cargo.toml
+
+  - id: widget-c-3
+    name: output-colors
+    priority: P2
+    status: open
+    title: "Colorize --list output with owo-colors"
+    description: "Low risk, purely cosmetic. owo-colors already in Cargo.toml."
+    files:
+      - src/main.rs
+
+  - id: widget-c-4
+    name: add-tests-for-parser
+    priority: P2
+    status: parked
+    title: "Unit tests for CLI arg parser edge cases"
+    description: "Parked — parser is stable, no regressions in 3 weeks. Revisit if parser changes."
+    files:
+      - src/cli.rs
+
+  - id: widget-c-5
+    name: old-cache-format
+    priority: P1
+    status: done
+    title: "Migrate cache from JSON to bincode"
+    completed: 2026-04-01
+
+log:
+  - date: 2026-04-02
+    summary: "Merged feature/oauth — broke auth compile, left P0 in items. Cache migration done."
+    commits: [a1b2c3d, e4f5g6h]
+  - date: 2026-04-01
+    summary: "Migrated disk cache to bincode. 15% faster cold start."
+    commits: [x7y8z9a]
